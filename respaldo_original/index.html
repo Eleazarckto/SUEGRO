@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Control con Base de Datos - Taller y Bordados</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="contenedor">
+        <header class="header-app">
+            <div>
+                <h1>Sistema Integral de Taller <span class="badge-db">● BD Activa</span></h1>
+                <nav class="tabs" style="margin-top: 10px;">
+                    <button class="tab-btn active" onclick="cambiarTab('pedidos', this)">📋 Pedidos</button>
+                    <button class="tab-btn" onclick="cambiarTab('clientes', this)">🗂️ Base de Datos Clientes</button>
+                    <button class="tab-btn" onclick="cambiarTab('precios', this)">💲 Precios y Envíos</button>
+                    <button class="tab-btn" onclick="cambiarTab('empleados', this)">👥 Empleados</button>
+                    <button class="tab-btn" onclick="cambiarTab('caja', this)">💵 Caja Diaria</button>
+                    <button class="tab-btn" onclick="cambiarTab('notas', this)">📖 Cuaderno</button>
+                </nav>
+            </div>
+
+            <!-- MINI PANEL DE ESTADÍSTICAS -->
+            <div class="mini-stats">
+                <div class="stat-box">
+                    <span class="stat-num" id="stat-hoy">0</span>
+                    <span class="stat-label">Pedidos Hoy</span>
+                </div>
+                <div class="stat-box stat-verde">
+                    <span class="stat-num" id="stat-entregados">0</span>
+                    <span class="stat-label">Entregados</span>
+                </div>
+                <div class="stat-box stat-naranja">
+                    <span class="stat-num" id="stat-pendientes">0</span>
+                    <span class="stat-label">Por Entregar</span>
+                </div>
+                <div class="stat-box stat-azul">
+                    <span class="stat-num" id="stat-prendas-hoy">0</span>
+                    <span class="stat-label">Prendas Hoy</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ================= SECCIÓN 1: AGENDA DE PEDIDOS ================= -->
+        <section id="sec-pedidos" class="seccion activa">
+            <form id="form-agenda">
+                <div class="grupo-input">
+                    <label>Cliente (Nombre o Empresa):</label>
+                    <input type="text" id="cliente" list="sugerencias-clientes" placeholder="Ej: Inversiones López" required>
+                    <datalist id="sugerencias-clientes"></datalist>
+                </div>
+
+                <div class="grupo-input">
+                    <label>Tipo de Prenda / Trabajo:</label>
+                    <select id="prenda" required>
+                        <option value="" disabled selected>Seleccione prenda...</option>
+                        <option value="Franela">Franela</option>
+                        <option value="Suéter">Suéter</option>
+                        <option value="Sudaderas">Sudaderas</option>
+                        <option value="Monos">Monos</option>
+                        <option value="Bordado/Emblema">Bordado / Emblema</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+
+                <div class="grupo-input">
+                    <label>Color:</label>
+                    <input type="text" id="color" placeholder="Ej: Azul marino, Negro..." required>
+                </div>
+
+                <div class="grupo-input">
+                    <label>Talla:</label>
+                    <select id="talla" required>
+                        <option value="" disabled selected>Seleccione talla...</option>
+                        <option value="4 al 16 (Niños)">4 al 16 (Niños)</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                        <option value="Única">Única / No aplica</option>
+                    </select>
+                </div>
+
+                <div class="grupo-input">
+                    <label>Cantidad:</label>
+                    <input type="number" id="cantidad" min="1" value="1" required>
+                </div>
+
+                <div class="grupo-input">
+                    <label>Detalles del Bordado / Hilos:</label>
+                    <input type="text" id="detalles" placeholder="Logo, texto, colores de hilo..." required>
+                </div>
+
+                <div class="grupo-input">
+                    <label>Imagen del Logo / Emblema:</label>
+                    <input type="file" id="imagen" accept="image/*">
+                </div>
+
+                <div class="grupo-input">
+                    <label>Fecha de Ingreso:</label>
+                    <input type="date" id="fechaIngreso" required>
+                </div>
+
+                <div class="grupo-input">
+                    <label>Fecha de Entrega:</label>
+                    <input type="date" id="fechaEntrega" required>
+                </div>
+
+                <div class="grupo-input">
+                    <label>Zona de Delivery / Envío:</label>
+                    <select id="zonaEnvio" required></select>
+                </div>
+
+                <div class="grupo-input span-2">
+                    <label>Dirección Exacta / Punto de Referencia:</label>
+                    <input type="text" id="ubicacion" placeholder="Calle, urbanización, agencia de envío..." required>
+                </div>
+
+                <button type="submit" class="btn-principal span-3">Guardar Pedido en Base de Datos</button>
+            </form>
+
+            <h2>Lista de Pedidos Pendientes en Taller</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fechas</th>
+                            <th>Cliente</th>
+                            <th>Diseño / Prenda</th>
+                            <th>Color / Talla</th>
+                            <th>Cant.</th>
+                            <th>Zona y Dirección</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-agenda"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ================= SECCIÓN 2: BASE DE DATOS DE CLIENTES ================= -->
+        <section id="sec-clientes" class="seccion">
+            <div class="caja-precio">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+                    <div>
+                        <h2 style="text-align: left; margin-bottom: 4px;">🗂️ Historial Completo y Base de Datos por Cliente</h2>
+                        <p style="font-size: 13px; color: #666; margin: 0;">Todos los pedidos quedan guardados automáticamente bajo el nombre de cada cliente.</p>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn-principal" style="background-color: #28a745; padding: 8px 14px; font-size: 13px;" onclick="exportarBaseDatos()">💾 Descargar Respaldo (BD)</button>
+                        <label class="btn-principal" style="background-color: #6c757d; padding: 8px 14px; font-size: 13px; cursor: pointer;">
+                            📂 Cargar Respaldo
+                            <input type="file" id="importar-db" accept=".json" style="display: none;" onchange="importarBaseDatos(event)">
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Buscador por cliente -->
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <input type="text" id="buscador-cliente" placeholder="🔍 Escribe el nombre del cliente para filtrar sus pedidos..." style="flex: 1; border: 2px solid #0066cc;" oninput="renderizarBaseDatosClientes()">
+                    <select id="filtro-estado-db" onchange="renderizarBaseDatosClientes()">
+                        <option value="TODOS">Todos los estados</option>
+                        <option value="PENDIENTE">Solo Pendientes</option>
+                        <option value="ENTREGADO">Solo Entregados</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Estado</th>
+                                <th>Fecha Ingreso / Entrega</th>
+                                <th>Prenda y Diseño</th>
+                                <th>Color / Talla</th>
+                                <th>Cant.</th>
+                                <th>Ubicación / Envío</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-bd-clientes"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECCIÓN 3: PRECIOS Y ENVÍOS ================= -->
+        <section id="sec-precios" class="seccion">
+            <div class="grid-precios">
+                <div class="caja-precio">
+                    <h2>Precios por Prenda y Talla</h2>
+                    <form id="form-precios" class="form-mini">
+                        <input type="text" id="p-prenda" placeholder="Prenda (Franela, Mono...)" required>
+                        <input type="text" id="p-talla" placeholder="Talla (S-L, XL...)" required>
+                        <input type="number" step="0.01" id="p-detal" placeholder="Precio Detal ($)" required>
+                        <input type="number" step="0.01" id="p-mayor" placeholder="Precio Mayor ($)" required>
+                        <button type="submit" class="btn-principal">Agregar Tarifa</button>
+                    </form>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Prenda</th>
+                                <th>Talla</th>
+                                <th>Detal ($)</th>
+                                <th>Mayor ($)</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-precios"></tbody>
+                    </table>
+                </div>
+
+                <div class="caja-precio">
+                    <h2>Tarifas de Delivery y Envíos</h2>
+                    <form id="form-envios" class="form-mini">
+                        <input type="text" id="e-zona" placeholder="Zona / Agencia (Centro, MRW...)" required>
+                        <input type="number" step="0.01" id="e-costo" placeholder="Costo ($)" required>
+                        <button type="submit" class="btn-principal">Agregar Zona</button>
+                    </form>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Zona / Método</th>
+                                <th>Costo ($)</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-envios"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECCIÓN 4: EMPLEADOS Y COMISIONES ================= -->
+        <section id="sec-empleados" class="seccion">
+            <div class="caja-precio" style="max-width: 950px; margin: 0 auto;">
+                <h2>Control de Producción y Comisiones de Empleados</h2>
+                <form id="form-empleado-prod" class="form-mini" style="margin-bottom: 20px;">
+                    <input type="date" id="emp-fecha" required>
+                    <input type="text" id="emp-nombre" placeholder="Nombre del Empleado" required>
+                    <select id="emp-prenda" required>
+                        <option value="" disabled selected>Prenda...</option>
+                        <option value="Franela">Franela</option>
+                        <option value="Suéter">Suéter</option>
+                        <option value="Sudaderas">Sudadera</option>
+                        <option value="Monos">Mono</option>
+                        <option value="Bordado/Emblema">Bordado / Emblema</option>
+                    </select>
+                    <input type="number" id="emp-cantidad" min="1" placeholder="Cant. hechas" required>
+                    <input type="number" step="0.01" id="emp-comision" placeholder="Comisión unit. ($)" required>
+                    <button type="submit" class="btn-principal">Registrar</button>
+                </form>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Empleado</th>
+                            <th>Prenda</th>
+                            <th>Cant. Hechas</th>
+                            <th>Comisión Unit. ($)</th>
+                            <th>Total a Pagar ($)</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-empleados"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ================= SECCIÓN 5: CAJA E INGRESOS DIARIOS ================= -->
+        <section id="sec-caja" class="seccion">
+            <div class="caja-precio" style="max-width: 900px; margin: 0 auto;">
+                <h2>Control de Ingresos de Dinero Diario (Caja)</h2>
+                <form id="form-caja" class="form-mini" style="margin-bottom: 20px;">
+                    <input type="date" id="caja-fecha" required>
+                    <input type="text" id="caja-concepto" placeholder="Concepto (Venta, Anticipo...)" required>
+                    <input type="number" step="0.01" id="caja-monto" placeholder="Monto ($)" required>
+                    <button type="submit" class="btn-principal">Añadir Ingreso</button>
+                </form>
+
+                <div class="resumen-caja" style="background: #e2e8f0; padding: 12px; border-radius: 6px; margin-bottom: 15px; font-weight: bold; text-align: center; font-size: 16px; color: #2c3e50;">
+                    Total Ingresado en Caja: <span id="total-caja-txt" style="color: #0066cc;">$0.00</span>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Concepto / Descripción</th>
+                            <th>Monto ($)</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-caja"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ================= SECCIÓN 6: CUADERNO DE NOTAS LIBRES ================= -->
+        <section id="sec-notas" class="seccion">
+            <div class="caja-precio" style="max-width: 1000px; margin: 0 auto;">
+                <h2>📖 Cuaderno de Notas Libres</h2>
+                <form id="form-nota" style="background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 20px;">
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <input type="text" id="nota-titulo" placeholder="Título de la nota" style="flex: 2;" required>
+                        <input type="date" id="nota-fecha" style="flex: 1;" required>
+                    </div>
+                    <textarea id="nota-contenido" placeholder="Escribe aquí libremente lo que quieras..." rows="4" style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 6px; font-family: inherit; font-size: 14px; resize: vertical;" required></textarea>
+                    <button type="submit" class="btn-principal" style="margin-top: 10px; width: 100%;">Guardar Nota en el Cuaderno</button>
+                </form>
+
+                <div id="cuadricula-notas" class="grid-cuaderno"></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Visor de imagen en pantalla completa -->
+    <div id="visor-modal" class="modal" onclick="cerrarVisor()">
+        <span class="cerrar-modal">&times;</span>
+        <img class="modal-contenido" id="imagen-ampliada">
+        <div id="texto-modal"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

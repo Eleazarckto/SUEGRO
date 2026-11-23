@@ -1,0 +1,104 @@
+﻿/* Refinamiento del material plano de Zupera: bordes, jerarquía y densidad. */
+button { transition: background-color .15s, border-color .15s, color .15s; }
+.tab-btn svg { width: 21px; height: 21px; display: block; }
+.tab-btn { min-height: 48px; }
+.tab-btn.active { font-weight: 700; position: relative; }
+.tab-btn.active::after { content: ''; position: absolute; right: 10px; width: 5px; height: 5px; background: var(--azul); border-radius: 50%; }
+.barra-superior { min-height: 78px; }
+.bienvenida { padding: 7px 0 10px; }
+.bienvenida h2 { font-size: 32px; line-height: 1.2; }
+.nota-local { border-left: 2px solid var(--filo); padding: 3px 12px; max-width: 820px; }
+.badge-db { border: 1px solid var(--filo); border-radius: 7px; padding: 5px 9px; background: var(--campo); }
+.stat-box { min-height: 113px; padding: 22px; }
+.stat-box:after { width: 28px; height: 28px; border-radius: 8px; opacity: .12; }
+.stat-num { letter-spacing: -1px; font-size: 32px; }
+.stat-label { font-size: 13px; }
+.stat-verde .stat-num { color: var(--verde); }
+.stat-naranja .stat-num { color: var(--ambar); }
+.stat-azul .stat-num { color: var(--azul); }
+.encabezado-seccion { margin-top: 28px; }
+.encabezado-seccion h2 { font-size: 22px; }
+#form-agenda { gap: 20px 24px; padding: 26px; }
+.separador-formulario { grid-column: 1 / -1; display: flex; align-items: center; gap: 11px; font-weight: 600; padding: 5px 0 14px; border-bottom: 1px solid var(--filo); }
+.separador-formulario > span { display: grid; place-items: center; width: 33px; height: 33px; border: 1px solid var(--filo); border-radius: 9px; color: var(--azul); font-size: 12px; }
+.separador-formulario small { font-weight: 400; margin-top: 2px; }
+.grupo-input { gap: 8px; }
+label { color: var(--texto); font-size: 13px; }
+input, select, textarea { border: 1px solid var(--filo); min-height: 44px; }
+input:hover, select:hover, textarea:hover { border-color: var(--suave); }
+input:focus, select:focus, textarea:focus { border-color: var(--azul); background: var(--panel); }
+.pie-formulario { margin-top: 4px; padding-top: 22px; }
+.pie-formulario .btn-principal { min-width: 170px; }
+.table-container { margin-top: 16px; }
+th { padding: 16px; font-size: 12px; letter-spacing: .15px; }
+td { padding: 18px 16px; line-height: 1.55; }
+td:first-child small { white-space: nowrap; }
+.acciones { gap: 7px; }
+.acciones button { min-height: 36px; padding: 7px 10px; font-size: 12px; }
+.btn-eliminar { border-color: transparent; }
+.btn-eliminar:hover { border-color: var(--rojo); }
+.estado-entregado, .estado-pendiente { font-weight: 600; font-size: 11px; border: 1px solid var(--filo); }
+.vacio { padding: 44px 22px; background: var(--panel); }
+.caja-precio > h2 { border-bottom: 1px solid var(--filo); padding-bottom: 18px; }
+#sec-clientes .caja-precio > div:first-child > div:last-child { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+#sec-clientes .caja-precio > div:nth-child(2) { display: flex; gap: 12px; margin: 18px 0; }
+#buscador-cliente { flex: 1; }
+#filtro-estado-db { width: 190px; }
+#sec-clientes .btn-principal { background: var(--panel); color: var(--azul); border-color: var(--filo); font-size: 13px; }
+.tarjeta-nota { background: var(--campo); border-top-width: 2px; }
+.tarjeta-nota p { line-height: 1.7; }
+.resumen-caja { border: 1px solid var(--filo); min-height: 96px; }
+@media (max-width: 1100px) {
+    #form-agenda { padding: 22px; }
+    .stat-label { font-size: 12px; }
+}
+@media (max-width: 700px) {
+    .lateral { padding: 16px 16px 12px; }
+    .marca { padding-bottom: 16px; }
+    .tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; overflow: visible; }
+    .tab-btn { justify-content: center; flex-direction: column; gap: 5px; padding: 9px 3px; font-size: 11px; min-height: 61px; border: 1px solid var(--filo); }
+    .tab-btn span { width: 20px; }
+    .tab-btn svg { width: 20px; height: 20px; }
+    .tab-btn.active { border-color: var(--seleccion); }
+    .tab-btn.active::after { display: none; }
+    .barra-superior { min-height: 72px; padding: 12px 16px; }
+    .ruta { font-size: 10px; }
+    .bienvenida { gap: 14px; }
+    .bienvenida h2 { font-size: 27px; }
+    .bienvenida p { line-height: 1.6; }
+    .nota-local { font-size: 11px; margin-bottom: 18px; }
+    .mini-stats { gap: 10px; }
+    .stat-box { min-height: 96px; padding: 17px; }
+    .stat-num { font-size: 28px; }
+    .stat-box:after { right: 15px; top: 17px; width: 24px; height: 24px; }
+    .stat-label { font-size: 12px; }
+    #form-agenda { padding: 18px 16px; gap: 18px; }
+    .separador-formulario { font-size: 14px; gap: 10px; }
+    .separador-formulario small { font-size: 11px; }
+    .filtros { align-items: stretch; }
+    .filtros input[type=search], .filtros select { flex-basis: 100%; width: 100%; }
+    #sec-clientes .caja-precio > div:nth-child(2) { flex-direction: column; gap: 0; }
+    #filtro-estado-db { width: 100%; }
+    /* Cada registro conserva las etiquetas de sus columnas al pasar a tarjeta. */
+    .table-container { border: 0; border-radius: 0; background: transparent; overflow: visible; }
+    table, tbody { display: block; }
+    thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    tbody tr { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--filo); border-radius: 12px; background: var(--panel); margin-bottom: 12px; padding: 6px 14px; }
+    td { display: block; min-width: 0; padding: 12px 0; margin: 0 5px; border-bottom: 1px solid var(--filo) !important; }
+    td::before { content: attr(data-etiqueta); display: block; font-size: 10px; color: var(--suave); font-weight: 600; margin-bottom: 5px; }
+    td:has(.acciones), td:has(.diseno), td[colspan] { grid-column: 1 / -1; }
+    td:has(.acciones) { border-bottom: 0 !important; }
+    td:has(.acciones)::before, td[colspan]::before { display: none; }
+    td[colspan] { border: 0 !important; margin: 0; padding: 24px 4px; }
+    td:first-child small { white-space: normal; }
+    td small { min-width: 0; }
+    .acciones { justify-content: flex-end; min-width: 0; }
+    .acciones button { min-height: 42px; }
+    .diseno { min-width: 0; }
+    .caja-precio { padding: 18px 14px; }
+    #sec-caja tbody tr { grid-template-columns: 1fr; }
+    #sec-caja td { grid-column: 1 / -1; }
+    .resumen-caja { margin: 18px 0; }
+}
+@media (prefers-reduced-motion: reduce) { button { transition: none; } }
+@media print { .separador-formulario { display: none; } }

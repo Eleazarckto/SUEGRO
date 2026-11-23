@@ -1,0 +1,74 @@
+{
+  "version": 2,
+  "fechaRespaldo": "2026-11-19T18:02:32.307Z",
+  "pedidos": [
+    {
+      "cliente": "Taller López",
+      "prenda": "Franela",
+      "color": "Azul",
+      "talla": "M",
+      "detalles": "Bordado de prueba",
+      "zonaEnvio": "Retiro en Taller ($0.00)",
+      "ubicacion": "Retiro en taller",
+      "cantidad": 4,
+      "fechaIngreso": "2026-11-18",
+      "fechaEntrega": "2026-11-20",
+      "imagen": "",
+      "entregado": false,
+      "id": 1,
+      "uid": "094b7084-14a0-4460-a815-80483701c308"
+    }
+  ],
+  "precios": [
+    {
+      "prenda": "Franela",
+      "talla": "M",
+      "detalCentavos": 1125,
+      "mayorCentavos": 800,
+      "uid": "591badd9-9f74-4a75-ac32-ec70b763feb9"
+    }
+  ],
+  "envios": [
+    {
+      "zona": "Retiro en Taller",
+      "costoCentavos": 0
+    },
+    {
+      "zona": "Centro",
+      "costoCentavos": 250,
+      "uid": "9f2f8067-a14a-4d0a-9ac1-835b0ae18c5e"
+    }
+  ],
+  "empleados": [
+    {
+      "fecha": "2026-11-19",
+      "empleado": "Ana",
+      "prenda": "Franela",
+      "cantidad": 3,
+      "comisionCentavos": 10,
+      "uid": "8a775a6a-b211-4f46-a5e8-540d6bb8602c"
+    }
+  ],
+  "caja": [
+    {
+      "fecha": "2026-11-19",
+      "concepto": "Ingreso de prueba",
+      "montoCentavos": 10,
+      "uid": "a302ae40-28b9-4d4c-ab9f-ae06e99ef4c2"
+    },
+    {
+      "fecha": "2026-11-19",
+      "concepto": "Ingreso de prueba",
+      "montoCentavos": 20,
+      "uid": "0c466ba4-604a-4a62-9771-95063b0a043d"
+    }
+  ],
+  "notas": [
+    {
+      "fecha": "2026-11-19",
+      "titulo": "<img src=x onerror=\"window.inyectado=true\">",
+      "contenido": "Detalle\nSegunda línea",
+      "uid": "a5ec29d8-a71c-456f-b80f-5bb6769f34cb"
+    }
+  ]
+}
