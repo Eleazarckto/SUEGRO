@@ -1,5 +1,11 @@
 # Bitácora TELAS
 
+## 2026-11-23 — Publicación comprobada
+
+Publicado el commit 81a06f60dfd204b2e9ef6172c3e3acf250343e22 en main de https://github.com/Eleazarckto/SUEGRO.git: 28 archivos, incluidos código, originales, fuentes, pruebas y documentación Word. git ls-remote confirmó exactamente el mismo SHA remoto. git push -u origin main terminó correctamente; no se usó force. El intento inicial de commit carecía de autor: se resolvió con user.name y user.email limitados al comando, usando la identidad conocida de Eleazar. La verificación de red requirió ejecución autorizada fuera del entorno restringido.
+
+Resuelto el bloqueo de publicación del 2026-11-19 para el nuevo destino. Seis pruebas de dominio aprobadas. ZIP duplicado de entregas/ excluido según .gitignore. Sin cambios funcionales ni despliegue. Documentación local actualizada y Word regenerado con python pruebas/generar_documentacion.py; sigue pendiente la incorporación a documentación central ya registrada anteriormente. Esta entrada se publica en un segundo commit documental.
+
 ## 2026-11-23 — Preparación de publicación en SUEGRO
 
 Destino indicado por Eleazar: https://github.com/Eleazarckto/SUEGRO.git, sustituye el destino solicitado el 2026-11-19. git ls-remote confirmó remoto sin referencias. origin configurado con permiso elevado porque .git/config estaba bloqueado; safe.directory limitado al comando por propietario distinto, sin modificar configuración global.
